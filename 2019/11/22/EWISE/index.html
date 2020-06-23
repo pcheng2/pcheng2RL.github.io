@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>什么是EWISE?EWISE论文解读 ~ Hexo</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Peng`s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/Algorithm.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期五, 十一月 22日 2019, 6:41 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.2k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="1-研究问题"><a href="#1-研究问题" class="headerlink" title="1.研究问题"></a>1.研究问题</h2><p>词义消歧（WSD）是自然语言处理（NLP）中一个长期存在但尚未完美解决的问题。其目的是根据文本中的单词，预测出该单词在当前文本中的含义。在字典内，一个单词通常具备多个意思，即一词多义。而WSD的任务就是去分析某个单词在当前文本中所使用的是哪一个含义。<br>WSD语料库通常很小，这是由于昂贵的人工注释成本。 当下supervised的WSD语料库把词义看作是离散的标签，并且对训练过程中未见过的单词应用其使用频率最高的词义（MFS）进行预测。换句话来说，就是在对词义标注这件事情上，传统的WSD是通过一个给定的supervised training set作为训练集，从而对词义进行标注。在测试当中，如果遇到在训练集中没有见过的单词，则假设该单词在当前语境中的词义为该单词使用频率最高的那一个。但是显然这种假设的结果在实际情况中的可靠性是非常差的。</p>
+<h2 id="2-研究目标"><a href="#2-研究目标" class="headerlink" title="2.研究目标"></a>2.研究目标</h2><p>为了解决这一问题，该论文的作者提出了Extended WSD Incorporating Sense Embedding(EWISE),一个监督模型，基于continuous sense embedding space，而不是离散的标签空间。这使得EWISE对不论是在训练集中见过的单词或是没见过的单词，都可以进行词义预测，从而实现zero-shot learning。</p>
+<h2 id="3-研究内容"><a href="#3-研究内容" class="headerlink" title="3.研究内容"></a>3.研究内容</h2><p>EWISE架构是从标注过的词义数据，字典内对单词的定义以及词汇知识库中进行词义嵌入的学习，利用词义的连续空间嵌入向量形式，作为WSD学习的目标。在EWISE中，取得一个单词的词义嵌入向量过程跟WSD任务的训练过程是相互独立的。<br>取得一个单词的词义嵌入向量方式则是通过WordNet语料库，基于字典内对单词的词义的定义从而可以通过查看字典内所定义的词义与WordNet中的不同词义的重叠部分来获取当前的语义。</p>
+<p>词汇知识库(lexical resources)是一个十分重要的资源，它提供了海量的单词以及其所对应的含义。最近的研究成果也显示神经网络可以从字典内抽取出语义信息。因此EWISE作者也是根据单词在字典当中的定义，从而得到其含义。</p>
+<p>在这该项目中，作者使用WordNet关系中的训练信号来学习用于单词定义的编码器。为了获取WordNet中的关系网，作者应用了最近前沿的知识图谱嵌入学习方法，TransE 和 ConvE。<br>ConvE定义了一个评分系统，其对知识图谱中实体的三要素(h,l,t)进行相异性打分。<br>ConvE定义了一个评分系统，其对知识图谱中实体的三要素(h,l,t)进行相异性打分。</p>
+<p>为了得到当前单词的在文中的词义嵌入(sense embedding)形式，EWISE对该单词的定义进行了革新。WISE利用WordNet和ConvE去学习一种新的用于单词定义的句子编码器。</p>
+<h2 id="4-解决思路"><a href="#4-解决思路" class="headerlink" title="4.解决思路"></a>4.解决思路</h2><p>EWISE主要由两部分组成：<br><strong>1.Attentive Context Encoder：</strong><br>该部分的主要目的是将sequence of tokens 转化为context-aware embeddings。context-aware embeddings 可以理解将一个句子转 化为将上下文语义考虑在内的vector。这里不难想到将会运用Bi-directional LSTM模型 + attention 去将句子进行向量化。之后EWISE选择接上一个投影层，从而输出每个输入的token所对应的embedding，即向量。<br><strong>2.Definition Encoder：</strong><br>在EWISE中，一个单词的定义embedding的学习过程是跟WSD任务相互独立的，这在前文也提到过。</p>
+<p><strong>WSD的处理：</strong><br>WSD处理的问题是将句子中的单词进行正确的词义标注，例如将句子中bank的词语标注为financial institution。<br>每个单词所对应语义的可能选项可以从语料库中获取，例如WordNet。在EWSIE中，作者选择基于WordNet的词义候选框架，由Raganato提出。<br>更具体的，根据给定任意长度的连续单词串x = &lt;x<sup>1</sup>,x<sup>2</sup>,x<sup>3</sup>…..,x<sup>T</sup> &gt;预测其对应的词义y = &lt;y<sup>1</sup>,y<sup>2</sup>,y<sup>y</sup>…..,y<sup>T</sup> &gt; 注意,y<sup>i</sup>是从预先定义好的语义库<em>S</em>中获得的。在实验过程中，单词<em>w</em>的候选词义<em>S<sub>w</sub></em>认为是已知的。<br><strong>Attentive Context Encoder：</strong><br>BiLSTM已经被证实其有能力根据单词所在的上下文，为单词标注出正确的词义。在EWISE中，作者结合了BiLSTM和self-attention层去获取单词的词义嵌入向量。然后根据<br>trained sense embeddings的输出结果去对Attentive Context Encoder进行训练。</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/NLP">NLP</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "什么是EWISE?EWISE论文解读&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

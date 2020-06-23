@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>LeetCode Notes--Easy ~ Hexo</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Peng`s Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/Algorithm.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期三, 十一月 6日 2019, 6:41 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    3.3k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      13 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1.两数之和"></a>1.两数之和</h2><p>给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。<br>你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
+<p><strong>示例:</strong><br><code>给定 nums = [2, 7, 11, 15], target = 9.</code><br><code>因为 nums[0] + nums[1] = 2 + 7 = 9 所以返回 [0, 1]</code></p>
+<pre><code class="python">class Solution(object):
+    def twoSum(self, nums, target):
+        &quot;&quot;&quot;
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        &quot;&quot;&quot;
+        hashmap = {}
+        for i,num in enumerate(nums):
+            diff = target - num
+            if diff in hashmap:
+                return [i, hashmap[diff]]
+            else:
+                hashmap[num] = i</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>用字典储存数据，加快算法速度。 因题目要求返回满足要求的数字的index，所以通过<code>hasmap[num] = i</code>的形式储存数据，其中key = 数字，value = 该数字在数组内所对应的index。</li>
+<li>通过<code>enumerate</code>方法获取数字的index和数值。</li>
+<li>判断 <code>diff = target - num</code> 是否在字典内，如果在则返回当前num的index以及符合要求的已存数字(diff)的index，通过<code>hashmap[diff]</code>获取。</li>
+<li>注意if–else中的判断顺序不能颠倒，否则会返回重复元素</li>
+</ul>
+<h2 id="2-有效的括号"><a href="#2-有效的括号" class="headerlink" title="2.有效的括号"></a>2.有效的括号</h2><p>给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘， ‘]’ 的字符串，判断字符串是否有效。</p>
+<p>有效字符串需满足：<br>1.左括号必须用相同类型的右括号闭合。<br>2.左括号必须以正确的顺序闭合。</p>
+<p>注意空字符串可被认为是有效字符串。</p>
+<p><strong>示例:</strong><br><code>输入: &quot;()&quot;</code><br><code>输出: true</code></p>
+<p><code>输入: &quot;()[]{}&quot;</code><br><code>输出：ture</code></p>
+<p><code>输入: &quot;(]&quot;</code><br><code>输出：false</code></p>
+<pre><code class="python">class Solution(object):
+    def isValid(self, s):
+        &quot;&quot;&quot;
+        :type s: str
+        :rtype: bool
+        &quot;&quot;&quot;
+        stack = []
+        brackets = {&#39;)&#39; : &#39;(&#39;, &#39;}&#39;:&#39;{&#39;,&#39;]&#39;:&#39;[&#39;}   #{key=右括号：value=左括号}
+        topItem = &#39;&#39;
+        for i in s:
+            if i in brackets:       #遇到右括号
+                topItem = stack.pop() if stack else &#39;#&#39;   #pop出栈顶端左括号
+                if topItem != brackets[i]:
+                    return False
+            else:
+                stack.append(i)     #如没遇到右括号，将左括号入栈
+        return not stack</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>注意到如果一个字符串合法，如括号的左半部分在其中出现，其对应的右半部分必将随后出现这一规律。（也可理解为如果括号的右半部分率先出现，即右括号的index&lt;其对应左括号的index，则该字符串不合法。）</li>
+<li>可以用栈的数据结构来处理此类问题，即从左到右遍历字符串，遇到左括号则将其进栈，遇到与之对应的右括号（通过字典来完成对应关系）则将其出栈。</li>
+<li>因栈类数据结构有着FIFO的特点，因此可以保证括号配对的正确性。如给定字符串<code>{[[]{}]}</code>,通过栈可实现从内部括号到外部括号的层层判断。</li>
+</ul>
+<h2 id="3-合并链表"><a href="#3-合并链表" class="headerlink" title="3.合并链表"></a>3.合并链表</h2><p>将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p>
+<p><strong>示例:</strong><br><code>输入: 1-&gt;2-&gt;4, 1-&gt;3-&gt;4</code><br><code>输出: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</code></p>
+<pre><code class="python">class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        &quot;&quot;&quot;
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        &quot;&quot;&quot;
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+        if l1.val &gt; l2.val:
+            l2.next = self.mergeTwoLists(l1,l2.next)
+            return l2
+        else:
+            l1.next = self.mergeTwoLists(l1.next,l2)
+            return l1</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>运用递归思想，终止条件为两条链表<code>l1</code>遍历完之后返回<code>l2</code>,<code>l2</code>遍历完之后返回<code>l1</code>，当两者都为空时结束。</li>
+<li>返回值：每一层调用都返回排序好的链表头。</li>
+<li>本级递归内容：如果<code>l1</code>的<code>val</code>值更小，则将<code>l1.next</code>与排序好的链表头相接,<code>l2</code>同理。</li>
+<li>可想象在最后一步时应做的步骤，无非为以下几种种情况：</li>
+</ul>
+<ol>
+<li>如<code>l1</code>末位 &gt; <code>l2</code>当前元素，则将<code>l1</code>末位元素追加到<code>l2</code>当前元素后，返回<code>l2</code>。</li>
+<li>如<code>l1</code>末位 &lt; <code>l2</code>当前元素，则将<code>l2</code>剩下的元素追加到<code>l1</code>后，返回<code>l1</code>。</li>
+<li>如<code>l1,l2</code>都为空，则证明排序完毕。</li>
+</ol>
+<h2 id="4-爬楼梯"><a href="#4-爬楼梯" class="headerlink" title="4.爬楼梯"></a>4.爬楼梯</h2><p>假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</p>
+<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p><strong>示例:</strong><br><code>输入: 2</code><br><code>输出: 2</code><br>解释： 有两种方法可以爬到楼顶。</p>
+<ol>
+<li>1 阶 + 1 阶</li>
+<li>2 阶</li>
+</ol>
+<pre><code class="python">class Solution(object):
+    def climbStairs(self, n):
+        &quot;&quot;&quot;
+        :type n: int
+        :rtype: int
+        &quot;&quot;&quot;
+        if n &lt;= 2:
+            return n
+        return climbStairs(n-1) + climbStairs(n-2)</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>采用递归思想：(自顶而下)</li>
+</ul>
+<ol>
+<li>第一步，我们有两个选择。选择爬一个台阶时，会造就 <em>f(n-1)</em> 种可能性路线；选择爬两个台阶的时，会造就 f(n-2) 种可能性路线；</li>
+<li>因为我们有两个选择，两种可能性，所以总的可能性是 <em>f(n) = f(n-1) + f(n-2)</em>；</li>
+<li>以此类推，如果我们有三个选择，一步一个台阶或两个台阶或三个台阶，那么，总的可能性就为 <em>f(n) = f(n-1) + f(n-2) + f(n-3)</em></li>
+</ol>
+<ul>
+<li><p>时间复杂度<em>O(n^2)</em></p>
+</li>
+<li><p>采用动态规划：(自下而上)<br>…</p>
+</li>
+</ul>
+<h2 id="4-二叉树的最近公共祖先"><a href="#4-二叉树的最近公共祖先" class="headerlink" title="4.二叉树的最近公共祖先"></a>4.二叉树的最近公共祖先</h2><p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</p>
+<p>百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。</p>
+<p><strong>示例:</strong><br><code>例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]</code><br><code>输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1</code><br><code>输出: 3</code></p>
+<p>解释: 节点 5 和节点 1 的最近公共祖先是节点 3。<br><img src="/img/binarytree.png" srcset="/img/loading.gif" alt=""></p>
+<pre><code class="python">class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        &quot;&quot;&quot;
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        &quot;&quot;&quot;
+        if root in (None,p,q):    # 如果该节点的左子树和右子树包含p或者q，那么此时的根节点就是最近公共祖先；亦或是该节点为p或q中的一个
+            return root
+        left = lowestCommonAncestor(root.left,p,q)
+        right = lowestCommonAncestor(root.right,p,q)
+        return right if left is None else left if right is None else root
+</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>采用递归思想：先采用深度遍历（DFS）遍历二叉树</li>
+</ul>
+<ol>
+<li>如果左子树和右子树包含<code>p</code>或者<code>q</code>，那么此时的根节点就是最近公共祖先（LCA）。</li>
+<li>如果左子树包含p和q, 那么到root-&gt;left中继续查找，最近公共祖先在左子树里面</li>
+<li>如果右子树包含p和q，那么到root-&gt;right中继续查找，最近公共祖先在右子树里面</li>
+</ol>
+<h2 id="5-杀死进程"><a href="#5-杀死进程" class="headerlink" title="5.杀死进程"></a>5.杀死进程</h2><p>给 n 个进程，每个进程都有一个独一无二的 PID （进程编号）和它的 PPID （父进程编号）。</p>
+<p>每一个进程只有一个父进程，但是每个进程可能会有一个或者多个孩子进程。它们形成的关系就像一个树状结构。只有一个进程的 PPID 是 0 ，意味着这个进程没有父进程。所有的 PID 都会是唯一的正整数。</p>
+<p>我们用两个序列来表示这些进程，第一个序列包含所有进程的 PID ，第二个序列包含所有进程对应的 PPID。</p>
+<p>现在给定这两个序列和一个 PID 表示你要杀死的进程，函数返回一个 PID 序列，表示因为杀这个进程而导致的所有被杀掉的进程的编号。</p>
+<p>当一个进程被杀掉的时候，它所有的孩子进程和后代进程都要被杀掉。</p>
+<p>你可以以任意顺序排列返回的 PID 序列。</p>
+<p><strong>示例:</strong><br><code>输入：</code><br><code>pid =  [1, 3, 10, 5]</code><br><code>ppid = [3, 0, 5, 3]</code><br><code>kill = 5</code><br><code>输出: [5,10]</code></p>
+<p>解释:</p>
+<pre><code>           3
+         /   \
+        1     5
+             /
+            10</code></pre><pre><code class="python">class TreeNode:
+    def __init__(self,x):
+        self.val = x
+        self.child = []
+class Solution:
+    def killProcess(self, pid: List[int], ppid: List[int], kill: int) -&gt; List[int]:
+        dic = {}
+        for _ in pid:                                  #建立dic[进程名] = Node(进程名) 类型字典
+            dic[_] = TreeNode(_)
+        for i in range(len(ppid)):                     #遍历ppid
+            if ppid[i] &gt; 0:                            #如果该ppid的值等于零，证明其index对应的pid为根节点，此实例中为3
+                node = dic.get(ppid[i])                #获取该ppid(进程名)所对应的Node(进程名)
+                node.child.append(dic.get(pid[i]))     #将Node.child信息储存起来，注意`dic.get(pid[i])`获取的是该ppid所对应的子进程
+        kills = []
+        kills.append(kill)
+        kills = self.kill_res(dic[kill], kills)
+        return kills
+
+
+    def kill_res(self, node,kills):
+        if len(node.child) == 0:                       #表明该进程已无子进程
+            return kills
+        for i in node.child:                           #遍历子当前进程中的每一个进程
+            kills.append(i.val)                        #储存每个子进程的名字
+            kills = self.kill_res(i,kills)             #递归查找当前子进程的子进程
+        return kills  </code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>新建TreeNode类并赋予child属性，通过建立字典以存储进程之间的父子关系。<code>dic[进程名] = Node(进程名).child ---&gt; 指向另一进程名</code>。</li>
+</ul>
+<ol>
+<li>pid中的各个元素为ppid中对应元素的子系元素，即ppid[0]的子进程为pid[0],ppid[1]的子进程为pid[1]，以此类推。如果ppid中的某一项值为0，则证明该位置（index）所对应的pid为根节点。</li>
+<li>进程关系储存完毕后，通过调用<code>kill_res</code>方法，递归找出所有被杀死的进程。</li>
+</ol>
+<h2 id="6-对称二叉树"><a href="#6-对称二叉树" class="headerlink" title="6.对称二叉树"></a>6.对称二叉树</h2><p>给定一个二叉树，检查它是否是镜像对称的。</p>
+<p>例如，二叉树 <code>[1,2,2,3,4,4,3]</code> 是对称的。</p>
+<pre><code>    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3</code></pre><p>返回：true</p>
+<p>但是下面这个 <code>[1,2,2,null,3,null,3]</code> 则不是镜像对称的:</p>
+<pre><code>    1
+   / \
+  2   2
+   \   \
+   3    3</code></pre><p>返回：false</p>
+<pre><code class="python">class Solution(object):
+    def isSymmetric(self, root):
+        &quot;&quot;&quot;
+        :type root: TreeNode
+        :rtype: bool
+        &quot;&quot;&quot;
+        if not root:
+            return True
+        return self.isMirror(root.left,root.right)
+    def isMirror(self,l,r):
+        if l== None and r == None:
+            return True
+        if l == None or r == None:
+            return False
+        return l.val == r.val and self.isMirror(l.left,r.right) and self.isMirror(l.right,r.left)
+</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>采用递归思想遍历二叉树，自上而下同时遍历左右两边子树，镜像二叉树的判断条件有三点：</li>
+</ul>
+<ol>
+<li>左子树的根节点值与右子树根节点值相同，<code>l.val = r.val</code>。</li>
+<li>左子树的左侧叶节点等于右子树的右侧叶节点，左子树的右侧叶节点等于右子树的左侧叶节点，<code>self.isMirror(l.left,r.right) and self.isMirror(l.right,r.left)</code>。</li>
+<li>左子树和右子树同时遍历完毕,<code>l== None and r == None:</code>，即证明该树对称。如果其中一侧遍历完毕而另一侧没有，则证明该树不对称。</li>
+</ol>
+<h2 id="6-二叉树的最大深度"><a href="#6-二叉树的最大深度" class="headerlink" title="6.二叉树的最大深度"></a>6.二叉树的最大深度</h2><p>给定一个二叉树，找出其最大深度。</p>
+<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
+<p><strong>说明</strong>: 叶子节点是指没有子节点的节点。</p>
+<p>给定二叉树 <code>[3,9,20,null,null,15,7]</code></p>
+<pre><code>    3
+   / \
+  9  20
+    /  \
+   15   7</code></pre><p>返回它的最大深度 3 。</p>
+<p>给定二叉树 <code>[1,2,7,3,4,null,null,null,5,6]</code></p>
+<pre><code>        1
+       / \
+      2   7
+     / \
+    3   4
+       / \
+      5   6</code></pre><p>返回它的最大深度 4 。</p>
+<pre><code class="python">class Solution(object):
+    def maxDepth(self, root):
+        &quot;&quot;&quot;
+        :type root: TreeNode
+        :rtype: int
+        &quot;&quot;&quot;
+        if root is None:
+            return 0
+        sub_left = root.left
+        sub_right = root.right
+        return 1 + max(self.maxDepth(sub_left) , self.maxDepth(sub_right))
+</code></pre>
+<p><strong>知识要点：</strong></p>
+<ul>
+<li>采用递归思想遍历二叉树，自上而下先遍历左边，后右边，每往下递进一层便+1，比较左子树和右字数的最大深度，并返回。</li>
+<li><em><code>H = 1 + max(H(2),H(7))</code> = 4*</em></li>
+<li><em><code>H(2) = 1 + max(H(3),H(4))</code> = 3*</em><br><code>H(3) = 1 + max(0,0)</code> = 1</li>
+<li><em><code>H(4) = 1 + max(H(5),H(6))</code> = 2*</em><br><code>H(5) = 1 + max(0,0)</code> = 1<br><code>H(6) = 1 + max(0,0)</code> = 1<br><code>H(7) = 1 + max(0,0)</code> = 1</li>
+</ul>
+<h2 id="7-买卖股票的最佳时机"><a href="#7-买卖股票的最佳时机" class="headerlink" title="7.买卖股票的最佳时机"></a>7.买卖股票的最佳时机</h2><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>如果你最多只允许完成一笔交易（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。</p>
+<p>注意你不能在买入股票前卖出股票。</p>
+<p><strong>示例 1:</strong><br><code>输入：[7,1,5,3,6,4]</code><br><code>输出: 5</code><br>解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。<em>注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格。</em></p>
+<p><strong>示例 2:</strong><br><code>输入：[7,6,4,3,1]</code><br><code>输出: 0</code><br>解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</p>
+<pre><code class="python">class Solution(object):
+    def maxProfit(self, prices):
+        &quot;&quot;&quot;
+        :type prices: List[int]
+        :rtype: int
+        &quot;&quot;&quot;
+        min_price = float(&#39;inf&#39;)
+        max_profit = 0
+        for i in range(len(prices)):
+            if prices[i] &lt; min_price:
+                min_price = prices[i]
+            profit = prices[i] - min_price
+            if profit &gt; max_profit:
+                max_profit = profit
+        return max_profit
+</code></pre>
+<p><strong>知识要点：</strong><br><img src="/img/stock.png" srcset="/img/loading.gif" alt=""><br>使我们感兴趣的点是上图中的峰和谷。我们需要找到最小的谷之后的最大的峰。<br>我们可以维持两个变量——minprice 和 maxprofit，它们分别对应<strong>迄今为止</strong>所得到的最小的谷值和最大的利润（卖出价格与最低价格之间的最大差值）。</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/Top100">Top100</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "LeetCode Notes--Easy&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
